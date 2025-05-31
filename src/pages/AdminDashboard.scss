@@ -1,0 +1,92 @@
+// frontend/src/components/AdminView.scss
+.admin-view-container {
+  background-color: #fdf9fa; // Very light pinkish/off-white
+  min-height: 100vh;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.admin-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+
+  .back-arrow {
+    font-size: 1.8em;
+    color: #555;
+    margin-right: 15px;
+    cursor: default; // Not interactive
+  }
+  h1 {
+    font-size: 1.5em;
+    color: #333;
+    margin: 0;
+  }
+}
+
+.current-queue-title {
+  font-size: 1.2em;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 15px;
+}
+
+.admin-queue-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  flex-grow: 1;
+
+  li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 0;
+    border-bottom: 1px solid #eee;
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    .customer-info {
+      .name {
+        font-weight: bold;
+        font-size: 1.1em;
+        color: #444;
+      }
+      .pax, .time {
+        font-size: 0.9em;
+        color: #777;
+      }
+    }
+
+    .serve-now-button {
+      padding: 8px 15px;
+      background-color: #efe6e7; // Light pinkish background
+      color: #5c4a4d; // Darker text
+      border: 1px solid #e8c3c8; // Slightly darker pink border
+      border-radius: 20px; // Pill shape
+      font-size: 0.9em;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.2s, color 0.2s;
+
+      &:hover {
+        background-color: #e8c3c8;
+        color: #4f3b3e;
+      }
+    }
+  }
+}
+
+.admin-view-container {
+    position: relative;
+    padding: 2rem;
+    background-image: url('../assets/appam.png'); // adjust path as needed
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    background-blend-mode: lighten; // Optional: blends nicely with white
+    background-color: rgba(255, 255, 255, 0.9); // soft white overlay
+}

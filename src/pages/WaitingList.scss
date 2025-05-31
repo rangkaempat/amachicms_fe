@@ -1,0 +1,165 @@
+// frontend/src/components/CustomerView.scss
+.customer-view-container {
+  background-color: #ffffff;
+  min-height: 100vh; // Make sure it fills the column
+  padding: 0; // Remove padding to allow image to span full width
+  display: flex;
+  flex-direction: column;
+}
+
+.restaurant-header.slideshow {
+    position: relative;
+    height: 300px;
+    overflow: hidden;
+}
+
+.slide-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity 2s ease-in-out;
+    z-index: 0;
+}
+
+.slide-image.visible {
+    opacity: 1;
+    z-index: 1;
+}
+
+
+.restaurant-header {
+  img {
+    width: 100%;
+    height: auto; // Maintain aspect ratio
+    max-height: 300px; // Or whatever looks good
+    object-fit: cover;
+  }
+}
+
+.queue-section {
+  padding: 20px;
+  flex-grow: 1; // Allow this section to grow and push button to bottom
+  display: flex;
+  flex-direction: column;
+}
+
+.queue-title-bar {
+  display: flex;
+  align-items: center;
+  margin-left: 25px;
+  margin-bottom: 15px;
+  width: 100%; // ensure full width
+
+  h2 {
+    font-size: 1.4em;
+    color: #333;
+    margin: 0;
+  }
+
+  .add-icon {
+    font-size: 1.8em;
+    font-weight: bold;
+    color: #555;
+    cursor: default;
+    margin-left: 10px;
+  }
+}
+
+
+.current-queue-title {
+    font-size: 1.1em;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.queue-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0 0 20px 0; // Add margin at the bottom
+  flex-grow: 1; // Allow list to take available space
+
+  li {
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+    &:last-child {
+      border-bottom: none;
+    }
+
+    .name {
+      font-weight: bold;
+      font-size: 1.1em;
+      color: #444;
+    }
+    .pax {
+      font-size: 0.9em;
+      color: #777;
+    }
+  }
+}
+
+.join-queue-button {
+  width: calc(100% - 40px); // Account for padding
+  margin: 0 auto 20px auto; // Center and add bottom margin
+  padding: 15px;
+  background-color: #e8c3c8; // Light pink from image
+  color: #4f3b3e; // Darker text for contrast
+  border: none;
+  border-radius: 10px;
+  font-size: 1.1em;
+  font-weight: bold;
+  cursor: pointer;
+  text-align: center;
+  transition: background-color 0.2s;
+
+  &:hover {
+    background-color: #d7b2b8;
+  }
+}
+
+.instagram-follow-text {
+    text-align: center;
+    font-size: 0.95rem;
+    color: #555;
+    margin: 1rem 0;
+    font-style: italic;
+
+    strong {
+        color: #d94c4c; // optional highlight color
+    }
+}
+
+.queue-section {
+    position: relative;
+    padding: 2rem;
+    background-image: url('../assets/appam.png'); // adjust path as needed
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    background-blend-mode: lighten; // Optional: blends nicely with white
+    background-color: rgba(255, 255, 255, 0.9); // soft white overlay
+}
+
+.queue-scroll-container {
+  max-height: 50vh;  // Adjust height based on your layout
+  overflow-y: auto;
+  margin-bottom: 1rem;
+  padding-right: 0.5rem;
+
+  // Optional: custom scrollbar styles
+  scrollbar-width: thin;
+  scrollbar-color: #999 transparent;
+
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: #aaa;
+    border-radius: 3px;
+  }
+}
