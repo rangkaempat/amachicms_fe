@@ -1,10 +1,14 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import api from "/src/functions/api"; // <--- IMPORT YOUR CUSTOM AXIOS INSTANCE
 import "./JoinQueue.scss";
 import { useNavigate } from "react-router-dom";
 import formHeaderImage from "/src/assets/appam.png";
 
 const JoinQueue = ({ onJoinSuccess }) => {
+  useEffect(() => {
+    document.title = "Join Waitlist | Amachi's Palagaram";
+  }, []);
+
   const [name, setName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [partySize, setPartySize] = useState("");

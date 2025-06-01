@@ -11,6 +11,10 @@ import img3 from "/src/assets/throwback.png";
 import img4 from "/src/assets/backstory.png";
 
 const CustomerView = ({ refreshTrigger }) => {
+  useEffect(() => {
+    document.title = "Queue List | Amachi's Palagaram";
+  }, []);
+
   const [queue, setQueue] = useState([]);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const navigate = useNavigate();
