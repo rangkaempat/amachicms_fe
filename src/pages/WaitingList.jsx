@@ -3,14 +3,19 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "./WaitingList.scss";
 import api from "/src/functions/api"; // <--- IMPORT YOUR CUSTOM AXIOS INSTANCE
+import { useLocation } from "react-router-dom";
 
 // Import images
 import img1 from "/src/assets/joinlist.png";
 import img2 from "/src/assets/restaurant.jpeg";
 import img3 from "/src/assets/throwback.png";
 import img4 from "/src/assets/backstory.png";
+import homebg from "/src/assets/amachis-palagaram-bg.webp";
 
 const CustomerView = ({ refreshTrigger }) => {
+  const location = useLocation();
+  const queueNumber = location.state?.queueNumber;
+
   useEffect(() => {
     document.title = "Queue List | Amachi's Palagaram";
   }, []);
@@ -58,48 +63,60 @@ const CustomerView = ({ refreshTrigger }) => {
   };
 
   return (
-    <div className="customer-view-container">
-      <div className="restaurant-header slideshow">
-        {images.map((src, index) => (
-          <img
-            key={index}
-            src={src}
-            alt={`slide-${index}`}
-            className={`slide-image ${
-              index === currentImageIndex ? "visible" : ""
-            }`}
-          />
-        ))}
+    <div className="waitingListContainer">
+      <div
+        className="sectionBackground heroBackground"
+        style={{ backgroundImage: `url(${homebg})` }}
+      >
+        <div className="sectionContent">
+          <h1>
+            Amachi's
+            <br />
+            <span>
+              <hr />
+              PALAGARAM
+              <hr />
+            </span>
+          </h1>
+          <h2>
+            Satisfying cravings & fostering relationships through food since the
+            1970’s
+          </h2>
+        </div>
       </div>
 
-      <div className="queue-section">
-        <div className="queue-title-bar">
-          <h3>Welcome to Appachi's Palagaram</h3>
+      <div className="sectionLight">
+        <div className="sectionContent">
+          <p>Queue joined Successfully!</p>
+          <h3 className="current-queue-title">
+            {queueNumber
+              ? `Your Queue No: ${queueNumber}`
+              : "Retrieving your queue number..."}
+          </h3>
+          {queue.length > 0 ? (
+            <div className="queue-scroll-container">
+              {/* ⬅️ New wrapper */}
+              <ul className="queue-list">
+                {queue.map((customer) => (
+                  <li key={customer.id}>
+                    <div>
+                      <strong>Queue No:</strong> {customer.queueNumber}
+                    </div>
+                    <div>
+                      <strong>Party Size:</strong> {customer.partySize} pax
+                    </div>
+                    <div>
+                      <strong>Joined:</strong>{" "}
+                      {formatWaitTime(customer.joinedAt)}
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ) : (
+            <p>The queue is currently empty.</p>
+          )}
         </div>
-        <h3 className="current-queue-title">Current Queue</h3>
-        {queue.length > 0 ? (
-          <div className="queue-scroll-container">
-            {" "}
-            {/* ⬅️ New wrapper */}
-            <ul className="queue-list">
-              {queue.map((customer) => (
-                <li key={customer.id}>
-                  <div>
-                    <strong>Name:</strong> {customer.name}
-                  </div>
-                  <div>
-                    <strong>Party Size:</strong> {customer.partySize} pax
-                  </div>
-                  <div>
-                    <strong>Joined:</strong> {formatWaitTime(customer.joinedAt)}
-                  </div>
-                </li>
-              ))}
-            </ul>
-          </div>
-        ) : (
-          <p>The queue is currently empty.</p>
-        )}
       </div>
       <button className="join-queue-button" onClick={handleJoinClick}>
         Join Queue

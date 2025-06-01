@@ -12,6 +12,7 @@ const JoinQueue = ({ onJoinSuccess }) => {
   const [name, setName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [partySize, setPartySize] = useState("");
+  const [queueNumber, setQueueNumber] = useState("");
   const [message, setMessage] = useState({ text: "", type: "" });
 
   const handleSubmit = async (e) => {
@@ -42,27 +43,45 @@ const JoinQueue = ({ onJoinSuccess }) => {
       return;
     }
 
+    // Handle Submit
     try {
       // Use 'api' instance.
       // Since baseURL in api.js is 'http://localhost:5001/api',
       // the path here should just be '/queue'
-      await api.post("/queue", {
+
+      // 1. Post new customer to backend
+      const response = await api.post("/queue", {
         name,
         phoneNumber,
         partySize: parseInt(partySize),
+        queueNumber,
       }); // <--- USE 'api' AND CORRECT PATH
+
+      const newCustomer = response.data;
+
+      const position = newCustomer.queueNumber;
+
+      // 4. Show message
       setMessage({
-        text: "Successfully joined the waitlist!",
+        text: `Successfully joined the waitlist! Your Queue Number is: ${position}`,
         type: "success",
       });
+
+      // 5. Clear form + trigger any callbacks
       setName("");
       setPhoneNumber("");
       setPartySize("");
+      setQueueNumber("");
       if (onJoinSuccess) onJoinSuccess();
-      // ⏳ Navigate after 7 seconds
+
+      // ⏳ Navigate after 1 second
       setTimeout(() => {
-        navigate("/waiting-list");
-      }, 7000);
+        navigate("/waiting-list", {
+          state: {
+            queueNumber: position,
+          },
+        });
+      }, 1000);
     } catch (error) {
       console.error(
         "Error joining waitlist:",
@@ -78,7 +97,11 @@ const JoinQueue = ({ onJoinSuccess }) => {
   const navigate = useNavigate();
 
   const handleBackClick = () => {
-    navigate("/waiting-list");
+    navigate("/waiting-list", {
+      state: {
+        queueNumber: newCustomer.queueNumber,
+      },
+    });
   };
 
   return (
