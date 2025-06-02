@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import Hero from "../components/hero/Hero";
 import { motion } from "framer-motion";
 import { fadeInWithEase, staggerContainer } from "../functions/motionUtils";
+import Navbar from "../components/navbar/Navbar";
 
 const JoinQueue = ({ onJoinSuccess }) => {
   useEffect(() => {
@@ -101,6 +102,7 @@ const JoinQueue = ({ onJoinSuccess }) => {
 
   return (
     <div className="joinQueueContainer">
+      <Navbar />
       <Hero />
 
       <div className="sectionLight">

@@ -4,6 +4,7 @@ import axios from "axios";
 import "./AdminDashboard.scss";
 import api from "/src/functions/api"; // <--- IMPORT YOUR CUSTOM AXIOS INSTANCE
 import Hero from "../components/hero/Hero";
+import Navbar from "../components/navbar/Navbar";
 
 const AdminDashboard = ({ refreshTrigger, onServeSuccess }) => {
   useEffect(() => {
@@ -76,6 +77,7 @@ const AdminDashboard = ({ refreshTrigger, onServeSuccess }) => {
 
   return (
     <div className="sectionLight">
+      <Navbar />
       <div className="sectionContent adminContent">
         <h2>Admin Queue List</h2>
         <hr />

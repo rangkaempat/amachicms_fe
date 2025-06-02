@@ -6,6 +6,7 @@ import "./index.scss";
 import JoinQueue from "/src/pages/JoinQueue";
 import WaitingList from "/src/pages/WaitingList";
 import AdminDashboard from "/src/pages/AdminDashboard";
+import AdminLogin from "./pages/adminLogin/AdminLogin";
 
 export default function App() {
   return (
@@ -19,9 +20,11 @@ export default function App() {
         <Route index element={<JoinQueue />} />
 
         {/* About Route */}
-        <Route path="waiting-list" element={<WaitingList />} />
+        <Route path="/waiting-list" element={<WaitingList />} />
 
-        <Route path="admin" element={<AdminDashboard />} />
+        <Route path="/admin-login" element={<AdminLogin />} />
+
+        <Route path="/admin" element={<AdminDashboard />} />
       </Routes>
     </HashRouter>
     // </ThemeProvider>

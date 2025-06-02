@@ -7,6 +7,7 @@ import { useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
 import { fadeInWithEase, staggerContainer } from "../functions/motionUtils";
 import Hero from "../components/hero/Hero";
+import Navbar from "../components/navbar/Navbar";
 
 const CustomerView = ({ refreshTrigger }) => {
   const location = useLocation();
@@ -50,6 +51,7 @@ const CustomerView = ({ refreshTrigger }) => {
 
   return (
     <div className="waitingListContainer">
+      <Navbar />
       <Hero />
 
       <div className="sectionLight">
