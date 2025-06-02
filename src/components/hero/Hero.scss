@@ -1,0 +1,42 @@
+$primary: #e87d7f;
+$secondary: #343525;
+$dark: #323232;
+$light: #ffffff;
+$medium: #707070;
+$darkbg: #000000;
+$lightbg: #f6f6f6;
+
+.heroBackground {
+  height: 40vh;
+  min-height: fit-content;
+  border-radius: 0 0 30px 30px;
+  display: flex;
+  padding: 3rem 0;
+  padding-top: 5rem;
+
+  h1 {
+    font-family: "Italianno", cursive;
+    font-size: 80px;
+    line-height: 40px;
+    width: 100%;
+
+    span {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 1rem;
+      font-family: "Poppins", sans-serif;
+      font-size: 24px;
+      font-weight: 200;
+
+      hr {
+        color: $lightbg;
+      }
+    }
+  }
+
+  h2 {
+    font-weight: 400;
+    font-size: 12px;
+  }
+}

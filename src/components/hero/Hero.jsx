@@ -31,7 +31,7 @@ function Hero() {
               <hr />
             </span>
           </motion.h1>
-          <motion.h2 variants={fadeInLeft}>
+          <motion.h2 variants={fadeInWithEase}>
             Satisfying cravings & fostering relationships through food since the
             1970’s
           </motion.h2>

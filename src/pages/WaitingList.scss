@@ -11,40 +11,6 @@ $lightbg: #f6f6f6;
   flex-direction: column;
 }
 
-.heroBackground {
-  height: 40vh;
-  min-height: fit-content;
-  border-radius: 0 0 30px 30px;
-  display: flex;
-  padding: 3rem 0;
-
-  h1 {
-    font-family: "Italianno", cursive;
-    font-size: 80px;
-    line-height: 40px;
-    width: 100%;
-
-    span {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 1rem;
-      font-family: "Poppins", sans-serif;
-      font-size: 24px;
-      font-weight: 200;
-
-      hr {
-        color: $lightbg;
-      }
-    }
-  }
-
-  h2 {
-    font-weight: 400;
-    font-size: 12px;
-  }
-}
-
 .queueSuccessTitle {
   display: flex;
   flex-direction: column;
@@ -71,7 +37,7 @@ $lightbg: #f6f6f6;
   }
 }
 
-.queue-list {
+.queueList {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -86,7 +52,7 @@ $lightbg: #f6f6f6;
     flex-direction: column;
     align-items: start;
     justify-content: center;
-    gap: 0.5rem;
+    gap: 1rem;
     width: 100%;
     padding: 1rem 1rem;
 
@@ -96,16 +62,6 @@ $lightbg: #f6f6f6;
     box-shadow: 0px 1px 1.5px 0px rgba(0, 0, 0, 0.25);
     &:last-child {
       border-bottom: none;
-    }
-
-    .name {
-      font-weight: bold;
-      font-size: 1.1em;
-      color: #444;
-    }
-    .pax {
-      font-size: 0.9em;
-      color: #777;
     }
 
     .queueListNumber {
@@ -119,10 +75,26 @@ $lightbg: #f6f6f6;
     .currentQueueListNumber {
       background: $primary;
     }
+
+    .queueListDetail {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 1rem;
+
+      svg {
+        fill: $secondary;
+      }
+    }
   }
 }
 
 .join-queue-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  gap: 2rem;
   width: 100%;
   padding: 1rem;
   background-color: $primary;
@@ -133,4 +105,10 @@ $lightbg: #f6f6f6;
   font-weight: bold;
   cursor: pointer;
   text-align: center;
+
+  svg {
+    position: absolute;
+    fill: $light;
+    right: 2rem;
+  }
 }
