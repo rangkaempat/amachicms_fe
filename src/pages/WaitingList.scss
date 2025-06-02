@@ -45,29 +45,55 @@ $lightbg: #f6f6f6;
   }
 }
 
-.queue-section {
-  padding: 20px;
-  flex-grow: 1; // Allow this section to grow and push button to bottom
+.queueSuccessTitle {
   display: flex;
   flex-direction: column;
-}
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  width: 100%;
 
-.current-queue-title {
-  font-size: 1.1em;
-  font-weight: bold;
-  color: #333;
-  margin-bottom: 10px;
+  .queueSuccessIcon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    border: 1px solid $secondary;
+    padding: 2rem;
+  }
+
+  h2 {
+    width: fit-content;
+    background: $primary;
+    color: $light;
+    padding: 0.5rem 1.5rem;
+    border-radius: 30px;
+  }
 }
 
 .queue-list {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
   list-style-type: none;
-  padding: 0;
-  margin: 0 0 20px 0; // Add margin at the bottom
-  flex-grow: 1; // Allow list to take available space
+  padding: 1rem 0.5rem;
+  width: 100%;
 
   li {
-    padding: 1rem 0;
-    border-bottom: 1px solid #808080;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: center;
+    gap: 0.5rem;
+    width: 100%;
+    padding: 1rem 1rem;
+
+    border-radius: 10px;
+    border: 1px solid #ededed;
+    background: #f6f6f6;
+    box-shadow: 0px 1px 1.5px 0px rgba(0, 0, 0, 0.25);
     &:last-child {
       border-bottom: none;
     }
@@ -81,67 +107,30 @@ $lightbg: #f6f6f6;
       font-size: 0.9em;
       color: #777;
     }
+
+    .queueListNumber {
+      width: fit-content;
+      padding: 0.3rem 0.6rem;
+      border-radius: 5px;
+      background: #828377;
+      color: $light;
+    }
+
+    .currentQueueListNumber {
+      background: $primary;
+    }
   }
 }
 
 .join-queue-button {
-  width: calc(100% - 40px); // Account for padding
-  margin: 0 auto 20px auto; // Center and add bottom margin
-  padding: 15px;
-  background-color: #e8c3c8; // Light pink from image
-  color: #4f3b3e; // Darker text for contrast
+  width: 100%;
+  padding: 1rem;
+  background-color: $primary;
+  color: $light;
   border: none;
   border-radius: 10px;
   font-size: 1.1em;
   font-weight: bold;
   cursor: pointer;
   text-align: center;
-  transition: background-color 0.2s;
-
-  &:hover {
-    background-color: #d7b2b8;
-  }
-}
-
-.instagram-follow-text {
-  text-align: center;
-  font-size: 0.95rem;
-  color: #555;
-  margin: 1rem 0;
-  font-style: italic;
-
-  strong {
-    color: #d94c4c; // optional highlight color
-  }
-}
-
-.queue-section {
-  position: relative;
-  padding: 2rem;
-  background-image: url("../assets/appam.png"); // adjust path as needed
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
-  background-blend-mode: lighten; // Optional: blends nicely with white
-  background-color: rgba(255, 255, 255, 0.9); // soft white overlay
-}
-
-.queue-scroll-container {
-  max-height: 50vh; // Adjust height based on your layout
-  overflow-y: auto;
-  margin-bottom: 1rem;
-  padding-right: 0.5rem;
-
-  // Optional: custom scrollbar styles
-  scrollbar-width: thin;
-  scrollbar-color: #999 transparent;
-
-  &::-webkit-scrollbar {
-    width: 6px;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background-color: #aaa;
-    border-radius: 3px;
-  }
 }

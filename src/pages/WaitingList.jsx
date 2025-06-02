@@ -4,27 +4,21 @@ import { useNavigate } from "react-router-dom";
 import "./WaitingList.scss";
 import api from "/src/functions/api"; // <--- IMPORT YOUR CUSTOM AXIOS INSTANCE
 import { useLocation } from "react-router-dom";
-
-// Import images
-import img1 from "/src/assets/joinlist.png";
-import img2 from "/src/assets/restaurant.jpeg";
-import img3 from "/src/assets/throwback.png";
-import img4 from "/src/assets/backstory.png";
-import homebg from "/src/assets/amachis-palagaram-bg.webp";
+import { motion } from "framer-motion";
+import { fadeInWithEase, staggerContainer } from "../functions/motionUtils";
+import Hero from "../components/hero/Hero";
 
 const CustomerView = ({ refreshTrigger }) => {
   const location = useLocation();
   const queueNumber = location.state?.queueNumber;
+  const success = location.state?.succes;
 
   useEffect(() => {
     document.title = "Queue List | Amachi's Palagaram";
   }, []);
 
   const [queue, setQueue] = useState([]);
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const navigate = useNavigate();
-
-  const images = [img1, img2, img3, img4];
 
   const formatWaitTime = (joinedAt) => {
     const joined = new Date(joinedAt);
@@ -50,88 +44,93 @@ const CustomerView = ({ refreshTrigger }) => {
     return () => clearInterval(interval); // Clean up
   }, [refreshTrigger]);
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
-    }, 7000); // 10 seconds
-
-    return () => clearInterval(interval);
-  }, [images.length]);
-
   const handleJoinClick = () => {
     navigate("/");
   };
 
   return (
     <div className="waitingListContainer">
-      <div
-        className="sectionBackground heroBackground"
-        style={{ backgroundImage: `url(${homebg})` }}
-      >
-        <div className="sectionContent">
-          <h1>
-            Amachi's
-            <br />
-            <span>
-              <hr />
-              PALAGARAM
-              <hr />
-            </span>
-          </h1>
-          <h2>
-            Satisfying cravings & fostering relationships through food since the
-            1970’s
-          </h2>
-        </div>
-      </div>
+      <Hero />
 
       <div className="sectionLight">
         <div className="sectionContent">
-          <p>Queue joined Successfully!</p>
-          <h3 className="current-queue-title">
-            {queueNumber
-              ? `Your Queue No: ${queueNumber}`
-              : "Retrieving your queue number..."}
-          </h3>
+          <div className="queueSuccessTitle">
+            {success ? (
+              <>
+                <motion.div
+                  className="queueSuccessIcon"
+                  initial={{ scale: 0, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  transition={{ type: "spring", stiffness: 260, damping: 20 }}
+                >
+                  <motion.svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="72"
+                    height="72"
+                    viewBox="0 0 256 256"
+                  >
+                    <motion.path
+                      d="M229.66,77.66l-128,128a8,8,0,0,1-11.32,0l-56-56a8,8,0,0,1,11.32-11.32L96,188.69,218.34,66.34a8,8,0,0,1,11.32,11.32Z"
+                      fill="none"
+                      stroke="#343525"
+                      strokeWidth="16"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      initial={{ pathLength: 0 }}
+                      animate={{ pathLength: 1 }}
+                      transition={{ duration: 0.8, ease: "easeInOut" }}
+                    />
+                  </motion.svg>
+                </motion.div>
+                <p>Queue joined Successfully!</p>
+                <h2>{queueNumber && `Your Queue No: ${queueNumber}`}</h2>
+                <hr />
+              </>
+            ) : (
+              <h3>Current Queue:</h3>
+            )}
+          </div>
+
           {queue.length > 0 ? (
-            <div className="queue-scroll-container">
-              {/* ⬅️ New wrapper */}
-              <ul className="queue-list">
-                {queue.map((customer) => (
-                  <li key={customer.id}>
-                    <div>
-                      <strong>Queue No:</strong> {customer.queueNumber}
-                    </div>
-                    <div>
-                      <strong>Party Size:</strong> {customer.partySize} pax
-                    </div>
-                    <div>
-                      <strong>Joined:</strong>{" "}
-                      {formatWaitTime(customer.joinedAt)}
-                    </div>
-                  </li>
-                ))}
-              </ul>
-            </div>
+            <motion.ul
+              className="queue-list"
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.2 }}
+              variants={staggerContainer}
+            >
+              {queue.map((customer) => (
+                <motion.li key={customer.id} variants={fadeInWithEase}>
+                  <div
+                    className={
+                      queueNumber === customer.queueNumber
+                        ? "currentQueueListNumber queueListNumber"
+                        : "queueListNumber"
+                    }
+                  >
+                    <strong>Queue No: </strong>
+                    {customer.queueNumber}
+                  </div>
+                  <div>
+                    <strong>Party Size: </strong>
+                    {customer.partySize} pax
+                  </div>
+                  <div>
+                    <strong>Joined: </strong>
+                    {formatWaitTime(customer.joinedAt)}
+                  </div>
+                </motion.li>
+              ))}
+            </motion.ul>
           ) : (
             <p>The queue is currently empty.</p>
           )}
+
+          <button className="join-queue-button" onClick={handleJoinClick}>
+            Join Queue
+          </button>
         </div>
       </div>
-      <button className="join-queue-button" onClick={handleJoinClick}>
-        Join Queue
-      </button>
-
-      <p className="instagram-follow-text">
-        Follow us on Instagram for updates:&nbsp;
-        <a
-          href="https://www.instagram.com/amachis.palagaram/?hl=en"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <strong>@amachis.palagaram</strong>
-        </a>
-      </p>
     </div>
   );
 };

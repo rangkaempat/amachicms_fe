@@ -1,115 +1,100 @@
-// frontend/src/components/JoinWaitlistForm.scss
-.join-waitlist-container {
-  background-color: #f8f8f8; // Slightly off-white for the form area
-  min-height: 100vh;
-  padding: 0;
+$primary: #e87d7f;
+$secondary: #343525;
+$dark: #323232;
+$light: #ffffff;
+$medium: #707070;
+$darkbg: #000000;
+$lightbg: #f6f6f6;
+
+.joinQueueContainer {
   display: flex;
   flex-direction: column;
-}
-
-.form-header-image {
-  img {
-    width: 100%;
-    height: auto;
-    max-height: 300px;
-    object-fit: cover;
-  }
-}
-
-.form-content {
-  padding: 20px;
-  flex-grow: 1;
-  display: flex;
-  flex-direction: column;
-}
-
-.form-title-bar {
-  display: flex;
-  align-items: center;
-  margin-bottom: 30px;
-
-  .back-arrow {
-    font-size: 1.8em;
-    color: #555;
-    margin-right: 15px;
-    cursor: default; // Not interactive in this design
-  }
-  h2 {
-    font-size: 1.4em;
-    color: #333;
-    margin: 0;
-  }
 }
 
 .waitlist-form {
   display: flex;
   flex-direction: column;
-  gap: 20px; // Space between form elements
-  flex-grow: 1;
+  gap: 1rem; // Space between form elements
+  width: 100%;
+  position: relative;
 
   .form-group {
-    input[type="text"],
-    input[type="tel"],
-    input[type="number"] {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0.5rem;
+    border: 1px solid #ededed;
+    border-radius: 10px;
+    box-shadow: 0px 1px 1.5px 0px rgba(0, 0, 0, 0.25);
+    gap: 0.3rem;
+
+    .formGroupIcon {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 5px;
+      background: #ededed;
+      padding: 0.5rem;
+      height: 100%;
+      aspect-ratio: 1 / 1;
+    }
+
+    input {
       width: 100%;
-      padding: 15px;
-      border: 1px solid #e0e0e0;
-      border-radius: 10px;
-      background-color: #efe6e7; // Light pinkish from image
+      padding: 0.3rem;
+      border: none;
+      background-color: $lightbg;
       font-size: 1em;
-      color: #5c4a4d;
+      color: $dark;
 
       &::placeholder {
-        color: #8a7e7f;
+        color: $medium;
       }
     }
   }
 }
 
 .submit-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  gap: 2rem;
   width: 100%;
-  padding: 15px;
-  background-color: #e8c3c8; // Light pink
-  color: #4f3b3e;
+  padding: 1rem;
+  background-color: $primary;
+  color: $light;
   border: none;
   border-radius: 10px;
   font-size: 1.1em;
   font-weight: bold;
   cursor: pointer;
   text-align: center;
-  margin-top: auto; // Pushes button to bottom if form-content allows
-  transition: background-color 0.2s;
 
-  &:hover {
-    background-color: #d7b2b8;
+  svg {
+    position: absolute;
+    fill: $light;
+    right: 2rem;
   }
 }
 
 .message {
+  position: absolute;
   text-align: center;
-  margin-top: 15px;
-  padding: 10px;
-  border-radius: 5px;
+  padding: 0.7rem;
+  border-radius: 10px;
+  top: -3.5rem;
+  left: 0;
+  right: 0;
+  margin: auto;
+
   &.success {
     background-color: #d4edda;
     color: #155724;
   }
+
   &.error {
     background-color: #f8d7da;
     color: #721c24;
   }
-}
-
-.back-arrow-button {
-    background: none;
-    border: none;
-    font-size: 1.5rem;
-    cursor: pointer;
-    color: #333;
-    padding: 0.5rem 1rem;
-    transition: color 0.3s;
-
-    &:hover {
-        color: #d33;
-    }
 }
