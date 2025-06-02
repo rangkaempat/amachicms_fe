@@ -101,7 +101,7 @@ const JoinQueue = ({ onJoinSuccess }) => {
   const navigate = useNavigate();
 
   return (
-    <div className="joinQueueContainer">
+    <div className="sectionContainer">
       <Navbar />
       <Hero />
 

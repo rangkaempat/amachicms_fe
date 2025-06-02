@@ -72,6 +72,11 @@ a {
 // This is a standard style for all sections in the app that have either a light or dark background.
 // =======================================
 
+.sectionContainer {
+  display: flex;
+  flex-direction: column;
+}
+
 .sectionLight {
   background-color: $lightbg;
   color: $dark;

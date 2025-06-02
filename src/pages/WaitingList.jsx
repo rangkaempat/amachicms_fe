@@ -50,7 +50,7 @@ const CustomerView = ({ refreshTrigger }) => {
   };
 
   return (
-    <div className="waitingListContainer">
+    <div className="sectionContainer">
       <Navbar />
       <Hero />
 
