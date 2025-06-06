@@ -1,20 +1,30 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import "./Navbar.scss";
 import { Outlet, Link } from "react-router";
 import navLogo from "/src/assets/logo/amachis-palagaram-logo.webp";
-
+import { AuthContext } from "../../context/AuthContext";
 import { motion, AnimatePresence } from "framer-motion";
 import { popContainer, popItem } from "../../functions/motionUtils";
-
+import { useNavigate } from "react-router";
+import { logout } from "../../api/userAPI";
 export default function Navbar() {
+  const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const [showNavbar, setShowNavbar] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
-
+  const { user, setUser } = useContext(AuthContext);
   // Navbar Modal Toggle
   const toggleMenu = () => {
     setIsOpen(!isOpen);
     document.body.style.overflow = isOpen ? "auto" : "hidden";
+  };
+
+  const handleLogout = async () => {
+    const success = await logout(); // Call the API function
+    if (success) {
+      setIsOpen(!isOpen);
+      window.location.reload();
+    }
   };
 
   // Navbar Hide and Scroll
@@ -140,6 +150,16 @@ export default function Navbar() {
                 >
                   Main Website
                 </a>
+                {user && (
+                  <p
+                    className="navModalLink"
+                    onClick={handleLogout}
+                    style={{ cursor: "pointer" }}
+                  >
+                    Logout
+                  </p>
+                )}
+
                 <hr />
                 <div className="navModalSocialWrapper">
                   <a

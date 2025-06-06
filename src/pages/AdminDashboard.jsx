@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./AdminDashboard.scss";
-import api from "/src/functions/api"; // <--- IMPORT YOUR CUSTOM AXIOS INSTANCE
+import { fetchQueueUnseated, updateQueueId } from "../api/queueAPI";
 import Hero from "../components/hero/Hero";
 import Navbar from "../components/navbar/Navbar";
 
@@ -14,20 +14,16 @@ const AdminDashboard = ({ refreshTrigger, onServeSuccess }) => {
   const [queue, setQueue] = useState([]);
 
   useEffect(() => {
-    const fetchQueue = async () => {
-      try {
-        const response = await api.get("/queue");
-        setQueue(response.data);
-      } catch (error) {
-        console.error("Error fetching queue for admin:", error);
-      }
+    const fetchData = async () => {
+      const data = await fetchQueueUnseated(); // Fetch queue data
+      setQueue(data); // Set the queue state
     };
-    fetchQueue();
 
-    // Optional: Poll for updates every few seconds
-    const intervalId = setInterval(fetchQueue, 5000); // Poll every 5 seconds
-    return () => clearInterval(intervalId); // Cleanup interval on component unmount
-  }, [refreshTrigger]); // Refetch when refreshTrigger changes
+    fetchData(); // Initial fetch
+    const interval = setInterval(fetchData, 5000); // Repeat every 10 seconds
+
+    return () => clearInterval(interval); // Clean up
+  }, [refreshTrigger]);
 
   const handleServeNow = async (id) => {
     const customer = queue.find((c) => c.id === id);
@@ -38,7 +34,6 @@ const AdminDashboard = ({ refreshTrigger, onServeSuccess }) => {
       return phone.startsWith("0") ? "6" + phone : phone;
     };
 
-    const queueNumber = customer.queueNumber;
     const name = customer.name;
     const phoneNumber = formatPhoneNumber(customer.phoneNumber);
     const message = `Hey ${name}, your seat is ready for you in the restaurant. Thanks for being patient.`;
@@ -48,9 +43,9 @@ const AdminDashboard = ({ refreshTrigger, onServeSuccess }) => {
     // Open WhatsApp
     window.open(whatsappURL, "_blank");
 
-    // ✅ DELETE from backend queue
+    // ✅ UPDATE from backend queue
     try {
-      await api.delete(`/queue/${id}`);
+      await updateQueueId(id);
       console.log("Customer removed from queue");
 
       // Optional: refresh state locally
@@ -77,17 +72,14 @@ const AdminDashboard = ({ refreshTrigger, onServeSuccess }) => {
 
   return (
     <div className="sectionLight">
-      <Navbar />
       <div className="sectionContent adminContent">
         <h2>Admin Queue List</h2>
         <hr />
         {queue.length > 0 ? (
           <ul className="queueList">
-            {queue.map((customer) => (
+            {queue.map((customer, index) => (
               <li key={customer.id}>
-                <div className="queueListNumber">
-                  Queue No: {customer.queueNumber}
-                </div>
+                <div className="queueListNumber">Queue No: {index + 1}</div>
                 <div className="queueListDetail">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -110,7 +102,7 @@ const AdminDashboard = ({ refreshTrigger, onServeSuccess }) => {
                   >
                     <path d="M244.8,150.4a8,8,0,0,1-11.2-1.6A51.6,51.6,0,0,0,192,128a8,8,0,0,1-7.37-4.89,8,8,0,0,1,0-6.22A8,8,0,0,1,192,112a24,24,0,1,0-23.24-30,8,8,0,1,1-15.5-4A40,40,0,1,1,219,117.51a67.94,67.94,0,0,1,27.43,21.68A8,8,0,0,1,244.8,150.4ZM190.92,212a8,8,0,1,1-13.84,8,57,57,0,0,0-98.16,0,8,8,0,1,1-13.84-8,72.06,72.06,0,0,1,33.74-29.92,48,48,0,1,1,58.36,0A72.06,72.06,0,0,1,190.92,212ZM128,176a32,32,0,1,0-32-32A32,32,0,0,0,128,176ZM72,120a8,8,0,0,0-8-8A24,24,0,1,1,87.24,82a8,8,0,1,0,15.5-4A40,40,0,1,0,37,117.51,67.94,67.94,0,0,0,9.6,139.19a8,8,0,1,0,12.8,9.61A51.6,51.6,0,0,1,64,128,8,8,0,0,0,72,120Z"></path>
                   </svg>
-                  {customer.partySize} pax
+                  {customer.paxSize} pax
                 </div>
                 <div className="queueListDetail">
                   <svg
@@ -122,7 +114,7 @@ const AdminDashboard = ({ refreshTrigger, onServeSuccess }) => {
                   >
                     <path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm64-88a8,8,0,0,1-8,8H128a8,8,0,0,1-8-8V72a8,8,0,0,1,16,0v48h48A8,8,0,0,1,192,128Z"></path>
                   </svg>
-                  {formatTime(customer.joinedAt)}
+                  {formatTime(customer.dateTimeCreated)}
                 </div>
                 <button
                   className="serve-now-button"

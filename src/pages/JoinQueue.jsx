@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import api from "/src/functions/api"; // <--- IMPORT YOUR CUSTOM AXIOS INSTANCE
+import { addToQueue, fetchQueueUnseated } from "../api/queueAPI";
 import "./JoinQueue.scss";
 import { useNavigate } from "react-router-dom";
 import Hero from "../components/hero/Hero";
@@ -7,14 +7,14 @@ import { motion } from "framer-motion";
 import { fadeInWithEase, staggerContainer } from "../functions/motionUtils";
 import Navbar from "../components/navbar/Navbar";
 
-const JoinQueue = ({ onJoinSuccess }) => {
+export default function JoinQueue({ onJoinSuccess }) {
   useEffect(() => {
     document.title = "Join Waitlist | Amachi's Palagaram";
   }, []);
-
+  const currentDateTime = new Date();
   const [name, setName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
-  const [partySize, setPartySize] = useState("");
+  const [paxSize, setPaxSize] = useState("");
   const [queueNumber, setQueueNumber] = useState("");
   const [message, setMessage] = useState({ text: "", type: "" });
 
@@ -22,7 +22,7 @@ const JoinQueue = ({ onJoinSuccess }) => {
     e.preventDefault();
     setMessage({ text: "", type: "" });
 
-    if (!name || !phoneNumber || !partySize) {
+    if (!name || !phoneNumber || !paxSize) {
       setMessage({ text: "All fields are required.", type: "error" });
       return;
     }
@@ -34,11 +34,7 @@ const JoinQueue = ({ onJoinSuccess }) => {
       });
       return;
     }
-    if (
-      isNaN(parseInt(partySize)) ||
-      parseInt(partySize) <= 0 ||
-      parseInt > 10
-    ) {
+    if (isNaN(parseInt(paxSize)) || parseInt(paxSize) <= 0 || parseInt > 10) {
       setMessage({
         text: "Party size must be a positive number.",
         type: "error",
@@ -48,21 +44,15 @@ const JoinQueue = ({ onJoinSuccess }) => {
 
     // Handle Submit
     try {
-      // Use 'api' instance.
-      // Since baseURL in api.js is 'http://localhost:5001/api',
-      // the path here should just be '/queue'
+      // Add new customer to queue
+      const newCustomer = await addToQueue(name, phoneNumber, paxSize);
 
-      // Post new customer to backend
-      const response = await api.post("/queue", {
-        name,
-        phoneNumber,
-        partySize: parseInt(partySize),
-        queueNumber,
-      }); // <--- USE 'api' AND CORRECT PATH
-
-      const newCustomer = response.data;
-
-      const position = newCustomer.queueNumber;
+      // Fetch the updated queue to determine the position
+      const queueList = await fetchQueueUnseated();
+      // Find the position based on the sorted queue
+      const position =
+        queueList.findIndex((customer) => customer.id === newCustomer.id) + 1;
+      console.log(position, 900);
 
       // Show message
       setMessage({
@@ -70,19 +60,16 @@ const JoinQueue = ({ onJoinSuccess }) => {
         type: "success",
       });
 
-      // Clear form + trigger any callbacks
-      setName("");
-      setPhoneNumber("");
-      setPartySize("");
-      setQueueNumber("");
       if (onJoinSuccess) onJoinSuccess();
 
-      // ⏳ Navigate after 1 second
+      // Redirect after 1 second
+
       setTimeout(() => {
         navigate("/waiting-list", {
           state: {
             queueNumber: position,
-            succes: true, //Flag for tracking queue submission
+            success: true,
+            id: newCustomer.id,
           },
         });
       }, 1000);
@@ -102,7 +89,6 @@ const JoinQueue = ({ onJoinSuccess }) => {
 
   return (
     <div className="sectionContainer">
-      <Navbar />
       <Hero />
 
       <div className="sectionLight">
@@ -177,8 +163,8 @@ const JoinQueue = ({ onJoinSuccess }) => {
               <input
                 type="number"
                 placeholder="Party Size"
-                value={partySize}
-                onChange={(e) => setPartySize(e.target.value)}
+                value={paxSize}
+                onChange={(e) => setPaxSize(e.target.value)}
                 title="No alphabet inputs please, and our range per table is between 1 - 10 people only"
                 min="1"
                 max="10"
@@ -209,6 +195,4 @@ const JoinQueue = ({ onJoinSuccess }) => {
       </div>
     </div>
   );
-};
-
-export default JoinQueue;
+}
