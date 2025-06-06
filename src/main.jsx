@@ -13,7 +13,7 @@ import Navbar from "./components/navbar/Navbar";
 export default function App() {
   return (
     <AuthProvider>
-      <HashRouter>
+      <BrowserRouter>
         <ScrollToTop />
         <Navbar />
 
@@ -33,7 +33,7 @@ export default function App() {
             }
           />
         </Routes>
-      </HashRouter>
+      </BrowserRouter>
     </AuthProvider>
   );
 }
