@@ -30,7 +30,6 @@ jobs:
           protocol: ftp
           local-dir: dist/
           server-dir: ./
-          dangerous-clean-slate: true
 
       - name: Notify Discord on success (embed)
         if: success()
