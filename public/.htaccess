@@ -1,0 +1,19 @@
+# -----------------------------------------
+# 🔒 Force HTTPS (staging subdomain)
+# -----------------------------------------
+RewriteEngine On
+RewriteCond %{HTTPS} off
+RewriteRule ^(.*)$ https://staging.rangkaempat.com/$1 [L,R=301]
+
+# -----------------------------------------
+# ⚙️ React SPA fallback routing (Vite)
+# -----------------------------------------
+RewriteBase /
+
+# Don’t rewrite index.html
+RewriteRule ^index\.html$ - [L]
+
+# If not a real file or folder, serve index.html
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule . /index.html [L]
